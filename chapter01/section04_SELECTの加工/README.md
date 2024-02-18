@@ -16,4 +16,17 @@ SQL で SELECT による検索結果を得るまでの過程は２段階ある�
 | EXPECT         | 検索結果から他の検索結果を差し引く               |
 | INTERSEPT      | 検索結果とほかの検索結果で重複する部分を取得する |
 
+### ORDER BY
+
 - ORDER BY 句を伴わない SELECT では、各行をどの順序で返すか保証されない。
+
+### OFFSET - FETCH
+
+- 行数を限定して取得することができるのでページングなどに用いる。
+
+```
+SELECT * FROM テーブル名
+    ORDER BY カラム名
+    OFFSET 先頭から除外する行数 ROWS
+        FETCH NEXT 取得行数 ROWS ONLY
+```

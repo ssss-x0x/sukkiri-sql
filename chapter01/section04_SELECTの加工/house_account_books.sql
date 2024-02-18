@@ -20,6 +20,9 @@
  ('2022-02-25', '居住費', '3月の家賃', 0, 90000);
  
  */
+/*
+ * ORDER BY
+ */
 -- 費目一覧の取得
 SELECT
     DISTINCT category
@@ -70,3 +73,39 @@ FROM
 ORDER BY
     1 DESC,
     2 DESC;
+
+/*
+ * OFFSET - FETCH
+ */
+-- 出金額の高い準から3行を取得
+SELECT
+    category,
+    withdraw
+FROM
+    house_account_books
+ORDER BY
+    withdraw DESC OFFSET 0 ROWS
+FETCH FIRST
+    3 ROWS ONLY;
+
+-- 3番目に高い出金額だけを取得する
+SELECT
+    category,
+    withdraw
+FROM
+    house_account_books
+ORDER BY
+    withdraw DESC OFFSET 2 ROWS
+FETCH FIRST
+    1 ROWS ONLY;
+
+-- LIMITでも抽出する行数を指定できる
+SELECT
+    category,
+    withdraw
+FROM
+    house_account_books
+ORDER BY
+    withdraw DESC
+LIMIT
+    3;
