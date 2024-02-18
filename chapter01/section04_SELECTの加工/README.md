@@ -30,3 +30,46 @@ SELECT * FROM テーブル名
     OFFSET 先頭から除外する行数 ROWS
         FETCH NEXT 取得行数 ROWS ONLY
 ```
+
+## 集合演算子
+
+構造が似ている複数テーブルに対して SELECT した内容を組み合わせたい場合は、集合演算子を活用することで 1 つの SQL 文で検索を行うことができる。  
+データの行数を考慮してテーブルを分割した場合などに有効。
+
+### UNION
+
+- 2 つの SELECT 文を UNION で繋ぐと和集合を求めることができる。
+- UNION 対象の検索結果の列・データ型を統一する必要がある。
+- ORDER BY 句を併用する場合は 1 つ目の SELECT 文に記述した絡む名を指定する。
+
+```
+SELECT id AS primary_id, name FROM table_A
+UNION(ALL)
+SELECT id, name FROM table_B
+ORDER BY primary_id ASC;
+```
+
+### EXPECT | MINUS
+
+- ある SELECT 文の検索結果に存在する行から、別の SELECT 文の検索結果に存在する行を差し引いた「差集合」を求めることができる。
+
+```
+SELECT id AS primary_id, name FROM table_A
+EXCEPT (ALL)
+SELECT id, name FROM table_B
+ORDER BY primary_id ASC;
+```
+
+### INTERSECT
+
+- 2 つの SELECT 文に共通する行を集めた「積集合」を求めることができる。
+- どの順番で SELECT 文を記述しても結果は変わらない。
+- INTERSECT ALL にすると重複行をまとめずに返す。
+- NULL 同士をイコール とみなす
+
+```
+SELECT name FROM table_A
+INTERSECT
+SELECT name FROM table_B
+ORDER BY name ASC;
+```

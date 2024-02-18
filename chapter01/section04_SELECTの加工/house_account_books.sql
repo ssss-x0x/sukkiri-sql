@@ -19,6 +19,26 @@
  ('2024-02-18', '水道光熱費', '1月の電気代', 0, 7560),
  ('2022-02-25', '居住費', '3月の家賃', 0, 90000);
  
+ -- アーカイブテーブルを作成する
+ CREATE TABLE house_account_book_archives (
+ date DATE,
+ category VARCHAR(20),
+ memo VARCHAR(100),
+ deposit INT,
+ withdraw INT
+ );
+ 
+ INSERT INTO
+ house_account_book_archives (date, category, memo, deposit, withdraw)
+ VALUES
+ ('2023-12-10','給料','11月の給料',280000,0),
+ ('2023-12-18','水道光熱費','水道代',0,4200),
+ ('2023-12-24','食費','レストランみやび',0,5000),
+ ('2023-12-25','居住費','1月の家賃支払い',0,80000),
+ ('2024-01-10','給料','12月の給料',280000,0),
+ ('2024-01-13','教養娯楽費','スッキリシネマズ',0,1800),
+ ('2024-01-13','食費','新年会',0,5000),
+ ('2024-01-25','居住費','2月の家賃支払い',0,80000);
  */
 /*
  * ORDER BY
@@ -109,3 +129,51 @@ ORDER BY
     withdraw DESC
 LIMIT
     3;
+
+/**
+ * UNION 集合演算子
+ */
+SELECT
+    category,
+    deposit,
+    withdraw
+FROM
+    house_account_books
+UNION
+SELECT
+    category,
+    deposit,
+    withdraw
+FROM
+    house_account_book_archives
+ORDER BY
+    deposit,
+    withdraw,
+    category;
+
+/**
+ * EXCEPT 差集合を取得する
+ * 1番目に指定されたクエリの結果から2番目に指定されたクエリの結果を除いた結果を取得する
+ */
+SELECT
+    category
+FROM
+    house_account_books
+EXCEPT
+SELECT
+    category
+FROM
+    house_account_book_archives;
+
+/**
+ * INTERSECT 共通部分を取得する
+ */
+SELECT
+    category
+FROM
+    house_account_books
+INTERSECT
+SELECT
+    category
+FROM
+    house_account_book_archives;
