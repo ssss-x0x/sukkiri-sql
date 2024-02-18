@@ -44,7 +44,7 @@ SELECT * FROM テーブル名
 
 ```
 SELECT id AS primary_id, name FROM table_A
-UNION(ALL)
+UNION
 SELECT id, name FROM table_B
 ORDER BY primary_id ASC;
 ```
@@ -65,7 +65,7 @@ ORDER BY primary_id ASC;
 - 2 つの SELECT 文に共通する行を集めた「積集合」を求めることができる。
 - どの順番で SELECT 文を記述しても結果は変わらない。
 - INTERSECT ALL にすると重複行をまとめずに返す。
-- NULL 同士をイコール とみなす
+- NULL 同士をイコール とみなす。
 
 ```
 SELECT name FROM table_A
